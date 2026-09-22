@@ -18,8 +18,8 @@ resource "azurerm_log_analytics_workspace" "main" {
 }
 
 # logs_destination has to be set explicitly. With only the workspace ID the
-# azurerm 5.5 provider rejects the environment during apply, after validate and plan
-# have both passed.
+# azurerm 5.5 provider rejects the environment during apply, after validate
+# and plan have both passed.
 #
 # A workload profiles environment with only the Consumption profile. There is
 # no dedicated compute to pay for by the hour, and apps scale to zero.
