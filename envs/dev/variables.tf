@@ -28,3 +28,23 @@ variable "owner" {
   type        = string
   default     = "moyo"
 }
+
+variable "name_prefix" {
+  description = "Prefix for resource names."
+  type        = string
+  default     = "azure-lab"
+}
+
+variable "vnet_cidr" {
+  description = "Address space for the virtual network. Kept clear of 10.10.0.0/24 in gcp-terraform-lab and 10.20.0.0/16 in aws-terraform-lab."
+  type        = string
+  default     = "10.30.0.0/16"
+}
+
+# Container Apps needs at least a /27. A /24 costs nothing extra and leaves
+# room for the addresses the environment takes as it scales.
+variable "apps_subnet_cidr" {
+  description = "CIDR block for the subnet delegated to the Container Apps environment."
+  type        = string
+  default     = "10.30.1.0/24"
+}
