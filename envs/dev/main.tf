@@ -39,3 +39,13 @@ module "identity" {
   acr_id              = module.acr.id
   tags                = local.common_tags
 }
+
+module "containerapps" {
+  source = "../../modules/containerapps"
+
+  name_prefix         = var.name_prefix
+  resource_group_name = azurerm_resource_group.lab.name
+  location            = azurerm_resource_group.lab.location
+  subnet_id           = module.network.apps_subnet_id
+  tags                = local.common_tags
+}

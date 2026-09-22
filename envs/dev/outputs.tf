@@ -22,3 +22,13 @@ output "app_identity_client_id" {
   description = "Client ID of the app's managed identity."
   value       = module.identity.client_id
 }
+
+output "containerapps_environment_id" {
+  description = "ID of the Container Apps environment."
+  value       = module.containerapps.environment_id
+}
+
+output "containerapps_default_domain" {
+  description = "Default domain that app FQDNs in the environment sit under."
+  value       = module.containerapps.default_domain
+}
