@@ -17,3 +17,8 @@ output "acr_login_server" {
   description = "Login server of the container registry, used as the image prefix."
   value       = module.acr.login_server
 }
+
+output "app_identity_client_id" {
+  description = "Client ID of the app's managed identity."
+  value       = module.identity.client_id
+}

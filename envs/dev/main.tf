@@ -29,3 +29,13 @@ module "acr" {
   location            = azurerm_resource_group.lab.location
   tags                = local.common_tags
 }
+
+module "identity" {
+  source = "../../modules/identity"
+
+  name_prefix         = var.name_prefix
+  resource_group_name = azurerm_resource_group.lab.name
+  location            = azurerm_resource_group.lab.location
+  acr_id              = module.acr.id
+  tags                = local.common_tags
+}
