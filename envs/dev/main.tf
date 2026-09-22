@@ -47,5 +47,9 @@ module "containerapps" {
   resource_group_name = azurerm_resource_group.lab.name
   location            = azurerm_resource_group.lab.location
   subnet_id           = module.network.apps_subnet_id
+  identity_id         = module.identity.id
+  acr_login_server    = module.acr.login_server
+  image_tag           = var.image_tag
+  app_port            = var.app_port
   tags                = local.common_tags
 }

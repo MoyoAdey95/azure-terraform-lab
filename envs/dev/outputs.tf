@@ -32,3 +32,8 @@ output "containerapps_default_domain" {
   description = "Default domain that app FQDNs in the environment sit under."
   value       = module.containerapps.default_domain
 }
+
+output "app_url" {
+  description = "Public URL of the app."
+  value       = "https://${module.containerapps.app_fqdn}"
+}

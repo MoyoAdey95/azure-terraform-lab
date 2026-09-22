@@ -56,3 +56,17 @@ variable "acr_name" {
   type        = string
   default     = "moyoazlabacr"
 }
+
+# Tags are treated as immutable by convention, since ACR cannot enforce it.
+variable "image_tag" {
+  description = "Tag of the app image in the registry to run."
+  type        = string
+  default     = "v1"
+}
+
+# Matches the PORT the container listens on.
+variable "app_port" {
+  description = "Port the application container listens on."
+  type        = number
+  default     = 8080
+}
