@@ -20,3 +20,12 @@ module "network" {
   apps_subnet_cidr    = var.apps_subnet_cidr
   tags                = local.common_tags
 }
+
+module "acr" {
+  source = "../../modules/acr"
+
+  name                = var.acr_name
+  resource_group_name = azurerm_resource_group.lab.name
+  location            = azurerm_resource_group.lab.location
+  tags                = local.common_tags
+}

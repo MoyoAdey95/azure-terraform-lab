@@ -48,3 +48,11 @@ variable "apps_subnet_cidr" {
   type        = string
   default     = "10.30.1.0/24"
 }
+
+# Registry names are global and letters and digits only. Checked as free with
+# az acr check-name before the first apply.
+variable "acr_name" {
+  description = "Name of the container registry."
+  type        = string
+  default     = "moyoazlabacr"
+}

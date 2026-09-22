@@ -12,3 +12,8 @@ output "apps_subnet_id" {
   description = "ID of the subnet delegated to Container Apps."
   value       = module.network.apps_subnet_id
 }
+
+output "acr_login_server" {
+  description = "Login server of the container registry, used as the image prefix."
+  value       = module.acr.login_server
+}
