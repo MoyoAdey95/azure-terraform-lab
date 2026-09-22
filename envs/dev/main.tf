@@ -53,3 +53,18 @@ module "containerapps" {
   app_port            = var.app_port
   tags                = local.common_tags
 }
+
+# Whoever runs Terraform. With az login this is the signed-in user.
+data "azurerm_client_config" "current" {}
+
+module "keyvault" {
+  source = "../../modules/keyvault"
+
+  name                = var.key_vault_name
+  resource_group_name = azurerm_resource_group.lab.name
+  location            = azurerm_resource_group.lab.location
+  tenant_id           = data.azurerm_client_config.current.tenant_id
+  admin_principal_id  = data.azurerm_client_config.current.object_id
+  app_principal_id    = module.identity.principal_id
+  tags                = local.common_tags
+}

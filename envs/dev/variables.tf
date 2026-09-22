@@ -70,3 +70,11 @@ variable "app_port" {
   type        = number
   default     = 8080
 }
+
+# Vault names are global. A deleted vault keeps its name reserved until the
+# soft delete period ends. Checked as free on 22 Sep 2026.
+variable "key_vault_name" {
+  description = "Name of the key vault."
+  type        = string
+  default     = "kv-azure-lab-moyo"
+}

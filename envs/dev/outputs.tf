@@ -37,3 +37,8 @@ output "app_url" {
   description = "Public URL of the app."
   value       = "https://${module.containerapps.app_fqdn}"
 }
+
+output "key_vault_uri" {
+  description = "URI of the key vault."
+  value       = module.keyvault.vault_uri
+}
