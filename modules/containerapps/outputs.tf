@@ -22,3 +22,8 @@ output "app_fqdn" {
   description = "Fully qualified domain name of the app's ingress."
   value       = azurerm_container_app.api.ingress[0].fqdn
 }
+
+output "app_id" {
+  description = "ID of the container app."
+  value       = azurerm_container_app.api.id
+}
