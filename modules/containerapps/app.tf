@@ -69,4 +69,13 @@ resource "azurerm_container_app" "api" {
   }
 
   tags = var.tags
+
+  # After the first deploy the image tag is set by CI, which pushes a tag per
+  # commit. Terraform still owns the shape of the app, so var.image_tag stays
+  # as the value used when the app is first created and for a rebuild from
+  # scratch. Without this every plan would show the app being rolled back to
+  # that tag.
+  lifecycle {
+    ignore_changes = [template[0].container[0].image]
+  }
 }
