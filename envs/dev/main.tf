@@ -80,3 +80,15 @@ module "monitoring" {
   alert_email         = var.alert_email
   tags                = local.common_tags
 }
+
+module "ci" {
+  source = "../../modules/ci"
+
+  name_prefix         = var.name_prefix
+  resource_group_name = azurerm_resource_group.lab.name
+  location            = azurerm_resource_group.lab.location
+  acr_id              = module.acr.id
+  app_id              = module.containerapps.app_id
+  github_subject      = "${var.github_sub_prefix}:ref:refs/heads/main"
+  tags                = local.common_tags
+}

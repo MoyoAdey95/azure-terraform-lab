@@ -42,3 +42,13 @@ output "key_vault_uri" {
   description = "URI of the key vault."
   value       = module.keyvault.vault_uri
 }
+
+output "ci_client_id" {
+  description = "Client ID of the CI identity, used as AZURE_CLIENT_ID in the workflow."
+  value       = module.ci.client_id
+}
+
+output "tenant_id" {
+  description = "Tenant the CI identity authenticates against."
+  value       = data.azurerm_client_config.current.tenant_id
+}

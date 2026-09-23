@@ -93,3 +93,14 @@ variable "alert_email" {
   type        = string
   sensitive   = true
 }
+
+# Read from GitHub with
+# gh api repos/MoyoAdey95/azure-terraform-lab/actions/oidc/customization/sub
+# rather than written by hand. The numbers are the owner and repository IDs,
+# so the claim survives a rename and does not match a new repository that
+# reuses the name.
+variable "github_sub_prefix" {
+  description = "Start of the OIDC sub claim GitHub issues for this repository."
+  type        = string
+  default     = "repo:MoyoAdey95@212127446/azure-terraform-lab@1374062821"
+}
