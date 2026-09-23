@@ -24,14 +24,18 @@ The group is marked as managed by the environment, and Azure copied the four lab
 
 Prices for uksouth from the Azure retail prices API on 17 September 2026. A month is taken as 730 hours.
 
-| Item | Price | Per month |
+| Item | Retail price | Per month |
 |---|---|---|
 | Standard load balancer, first 5 rules | $0.025 per hour, plus $0.005 per GB processed | $18.25 before data |
 | Standard static public IPv4 | $0.005 per hour | $3.65 |
 
 The load balancer price is listed under the region `Global` rather than uksouth, so a query filtered on uksouth returns nothing for it.
 
-Together that is $0.030 an hour, or about $21.90 a month, before any data. It is charged for as long as the environment exists, whether or not the app has any replicas running. The app itself runs on the Consumption profile and scales to zero, so with no traffic it costs nothing, and the free monthly allowance of vCPU-seconds, GiB-seconds and requests covers a lab this size when it does run.
+The bill did not match that. In the first day of usage data the load balancer appears against meters named `Standard Included LB Rules and Outbound Rules - Free` and `Standard Data Processed - Free`, both at zero, while the public IP was charged normally. So the environment's networking cost this subscription $0.005 an hour, about $3.65 a month, not the $0.030 an hour the price list implied. The charged figures are in `docs/evidence/cost.txt`.
+
+Whether that is a free tier, a trial subscription behaviour or how Azure treats a load balancer it manages on your behalf, I cannot tell from the usage data alone. The retail price is what the price list says, and the meter is what was actually billed. Worth knowing that the two can differ, and worth checking the meters rather than the price list before promising a figure to anyone.
+
+The app itself runs on the Consumption profile and scales to zero, so with no traffic it costs nothing, and the free monthly allowance of vCPU-seconds, GiB-seconds and requests covers a lab this size when it does run.
 
 Container Apps can also run in a network Azure provides, with no subnet of our own, and Microsoft documents the load balancer and public IP as a consequence of bringing your own network. The lab uses its own network so that the address space, the subnet and the delegation are all visible in the code.
 

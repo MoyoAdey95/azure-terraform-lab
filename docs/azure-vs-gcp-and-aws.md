@@ -8,7 +8,7 @@ Cloud Run needed no network at all. Google's frontend took the request and the V
 
 Azure sits between the two. One virtual network and one subnet delegated to Container Apps, and no route table, gateway or second subnet, because Azure subnets already span every zone in the region. The environment then builds its own load balancer and public IP in a resource group it manages, which is closer to the Cloud Run experience except that the bill for it is visible. The delegation is the genuinely new idea. The subnet is handed over to the service, and nothing else can be put in it.
 
-The cost shape is different in each. Cloud Run charged nothing for the endpoint. The ALB billed hourly from the moment it existed. The Container Apps environment bills $0.030 an hour for its load balancer and public IP, with or without traffic.
+The cost shape is different in each. Cloud Run charged nothing for the endpoint. The ALB billed hourly from the moment it existed. The Container Apps environment bills for its public IP whether or not there is traffic, which measured at $0.005 an hour. Its load balancer showed up on the bill against free meters at zero, though the retail price list quotes $0.025 an hour for a standard load balancer.
 
 ## The resource group
 
