@@ -21,6 +21,14 @@ resource "azurerm_container_app" "api" {
     identity = var.identity_id
   }
 
+  # A reference to the Key Vault secret, fetched with the app's identity. The
+  # value itself never appears in the app's configuration.
+  secret {
+    name                = "app-message"
+    key_vault_secret_id = var.app_message_secret
+    identity            = var.identity_id
+  }
+
   ingress {
     external_enabled = true
     target_port      = var.app_port
@@ -40,6 +48,11 @@ resource "azurerm_container_app" "api" {
       image  = "${var.acr_login_server}/azure-lab-api:${var.image_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
+
+      env {
+        name        = "APP_MESSAGE"
+        secret_name = "app-message"
+      }
 
       liveness_probe {
         transport = "HTTP"

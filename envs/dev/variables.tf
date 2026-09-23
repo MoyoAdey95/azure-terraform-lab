@@ -78,3 +78,10 @@ variable "key_vault_name" {
   type        = string
   default     = "kv-azure-lab-moyo"
 }
+
+variable "app_message" {
+  description = "Value stored in the demo secret and returned by the app."
+  type        = string
+  sensitive   = true
+  default     = "hello from key vault"
+}

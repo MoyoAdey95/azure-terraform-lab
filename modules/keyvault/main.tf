@@ -35,3 +35,15 @@ resource "azurerm_role_assignment" "app_secrets_user" {
   principal_id         = var.app_principal_id
   principal_type       = "ServicePrincipal"
 }
+
+# The value comes from a Terraform variable, so it is also stored in the state
+# file in plain text. The state is in a storage account with key access off
+# and only Entra access, but in production the value would be set outside
+# Terraform and only the secret's name managed here.
+resource "azurerm_key_vault_secret" "app_message" {
+  name         = "app-message"
+  value        = var.app_message
+  key_vault_id = azurerm_key_vault.main.id
+
+  depends_on = [azurerm_role_assignment.admin_secrets_officer]
+}

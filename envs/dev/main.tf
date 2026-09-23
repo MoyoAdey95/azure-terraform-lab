@@ -51,6 +51,7 @@ module "containerapps" {
   acr_login_server    = module.acr.login_server
   image_tag           = var.image_tag
   app_port            = var.app_port
+  app_message_secret  = module.keyvault.app_message_secret_id
   tags                = local.common_tags
 }
 
@@ -66,5 +67,6 @@ module "keyvault" {
   tenant_id           = data.azurerm_client_config.current.tenant_id
   admin_principal_id  = data.azurerm_client_config.current.object_id
   app_principal_id    = module.identity.principal_id
+  app_message         = var.app_message
   tags                = local.common_tags
 }

@@ -42,3 +42,8 @@ variable "app_port" {
   description = "Port the application container listens on."
   type        = number
 }
+
+variable "app_message_secret" {
+  description = "Versionless Key Vault ID of the secret the app reads as APP_MESSAGE."
+  type        = string
+}

@@ -32,3 +32,9 @@ variable "tags" {
   description = "Tags applied to the vault."
   type        = map(string)
 }
+
+variable "app_message" {
+  description = "Value stored in the demo secret."
+  type        = string
+  sensitive   = true
+}
