@@ -1,0 +1,85 @@
+# Build the image and roll the container app onto it.
+#
+# There is no password or client secret. GitHub signs a token for this run,
+# azure/login exchanges it for an Azure access token through the federated
+# credential on id-azure-lab-ci, and that identity can push to the one
+# registry and update the one app.
+#
+# The verify step is the important one. A deploy can be accepted by Azure and
+# still never run, which happened in this lab when the image tag did not
+# exist: the update returned success and the revision ended at
+# ActivationFailed while the previous revision kept serving. Checking the
+# revision's running state is what turns a green run into evidence.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  RESOURCE_GROUP: rg-azure-lab
+  REGISTRY: moyoazlabacr
+  APP: ca-azure-lab-api
+  IMAGE: azure-lab-api
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Sign in to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      # Container Apps runs amd64 only, and GitHub's ubuntu runners are amd64,
+      # so this is an ordinary build with no cross-compilation.
+      - name: Build and push
+        run: |
+          az acr login --name "$REGISTRY"
+          docker build -t "$REGISTRY.azurecr.io/$IMAGE:$GITHUB_SHA" app
+          docker push "$REGISTRY.azurecr.io/$IMAGE:$GITHUB_SHA"
+
+      - name: Deploy
+        run: |
+          az containerapp update \
+            --name "$APP" \
+            --resource-group "$RESOURCE_GROUP" \
+            --image "$REGISTRY.azurecr.io/$IMAGE:$GITHUB_SHA" \
+            --output none
+
+      - name: Verify the new revision is running
+        run: |
+          revision=$(az containerapp show --name "$APP" --resource-group "$RESOURCE_GROUP" \
+            --query properties.latestRevisionName -o tsv)
+          echo "checking $revision"
+          for attempt in $(seq 1 20); do
+            state=$(az containerapp revision show --name "$APP" --resource-group "$RESOURCE_GROUP" \
+              --revision "$revision" --query properties.runningState -o tsv)
+            echo "attempt $attempt: $state"
+            case "$state" in
+              Running) echo "revision is running"; exit 0 ;;
+              ActivationFailed|Failed|Degraded) echo "revision failed to start"; exit 1 ;;
+            esac
+            sleep 15
+          done
+          echo "revision did not reach Running in time"
+          exit 1
+
+      - name: Request the app
+        run: |
+          fqdn=$(az containerapp show --name "$APP" --resource-group "$RESOURCE_GROUP" \
+            --query properties.configuration.ingress.fqdn -o tsv)
+          curl -sS --fail --retry 5 --retry-all-errors --retry-delay 10 "https://$fqdn/health"
+          echo
