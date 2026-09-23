@@ -1,0 +1,7 @@
+# five minutes after the last request
+Wed Sep 23 11:26:34 UTC 2026
+
+# az containerapp revision list
+Name                       Active    Running       Replicas
+-------------------------  --------  ------------  ----------
+ca-azure-lab-api--0000005  True      ScaledToZero  0

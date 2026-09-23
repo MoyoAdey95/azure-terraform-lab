@@ -1,0 +1,41 @@
+# az acr show --name moyoazlabacr
+{
+  "admin": false,
+  "anonPull": false,
+  "loginServer": "moyoazlabacr.azurecr.io",
+  "sku": "Basic"
+}
+
+# az acr manifest list-metadata
+[
+  {
+    "arch": "amd64",
+    "os": "linux",
+    "size": 56369647,
+    "tags": [
+      "v1"
+    ]
+  },
+  {
+    "arch": "amd64",
+    "os": "linux",
+    "size": 56375778,
+    "tags": null
+  },
+  {
+    "arch": "amd64",
+    "os": "linux",
+    "size": 56375918,
+    "tags": [
+      "a910c19cf550b00dd33dec242bf35a6a8307c75a"
+    ]
+  },
+  {
+    "arch": "amd64",
+    "os": "linux",
+    "size": 56375758,
+    "tags": [
+      "a43d63f91759f538aec5558777cc5ed71397674b"
+    ]
+  }
+]

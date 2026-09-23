@@ -1,0 +1,21 @@
+# az network vnet subnet show
+{
+  "delegation": "Microsoft.App/environments",
+  "prefixes": [
+    "10.30.1.0/24"
+  ],
+  "state": "Succeeded"
+}
+
+# az resource list --resource-group rg-azure-lab-infra
+Name            Sku
+--------------  --------
+capp-svc-lb-ip  Standard
+capp-svc-lb     Standard
+
+# az containerapp env show
+{
+  "domain": "happypebble-f1e09d63.uksouth.azurecontainerapps.io",
+  "infraRg": "rg-azure-lab-infra",
+  "staticIp": "4.250.114.79"
+}

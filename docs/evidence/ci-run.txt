@@ -1,0 +1,20 @@
+# gh run list --workflow=deploy.yml
+completed	success	ci: pin the runner image	deploy	main	push	35853049532	1m57s	2026-09-23T11:11:00Z
+completed	success	deploy	deploy	main	workflow_dispatch	35852379491	1m5s	2026-09-23T11:04:06Z
+completed	success	ci: deploy and terraform workflows, deploy verifies the revision starts	deploy	main	push	35852291457	2m6s	2026-09-23T11:03:12Z
+
+# gh run view, latest deploy
+
+✓ main deploy · 35853049532
+Triggered via push about 5 minutes ago
+
+JOBS
+✓ deploy in 1m52s (ID 107154995012)
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: azure/login@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy: .github#2
+
+
+For more information about the job, try: gh run view --job=107154995012
+View this run on GitHub: https://github.com/MoyoAdey95/azure-terraform-lab/actions/runs/35853049532

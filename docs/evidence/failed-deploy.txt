@@ -1,0 +1,49 @@
+Deliberate bad deploy, 23 September 2026. The image tag was overridden on the
+command line with a tag that does not exist in the registry, to see what a
+failed deploy does to a running app. Copied from the terminal at the time,
+because the failed revision has since been deactivated and no longer appears
+in a revision list.
+
+# terraform apply -var image_tag=v-does-not-exist
+Plan: 0 to add, 1 to change, 0 to destroy.
+module.containerapps.azurerm_container_app.api: Modifications complete after 23s
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+
+# immediately after, Wed Sep 23 09:18:03 UTC 2026
+# five requests to the app
+200
+200
+200
+200
+200
+
+# az containerapp revision list
+Name                       Active    Running     Health    Replicas
+-------------------------  --------  ----------  --------  ----------
+ca-azure-lab-api--0000001  True      Running     Healthy   1
+ca-azure-lab-api--0000002  True      Activating  None      1
+
+# Wed Sep 23 10:38:08 UTC 2026
+Name                       Active    Running           Health    Replicas
+-------------------------  --------  ----------------  --------  ----------
+ca-azure-lab-api--0000001  True      ScaledToZero      Healthy   0
+ca-azure-lab-api--0000002  True      ActivationFailed  None      0
+
+# az containerapp revision show, the failed revision
+{
+  "image": "moyoazlabacr.azurecr.io/azure-lab-api:v-does-not-exist",
+  "provisioning": "Provisioned",
+  "state": "ActivationFailed"
+}
+
+# the app, still answering
+200
+
+Two things came out of this. The app stayed up, because Container Apps does
+not move traffic to a revision that never becomes healthy. And the apply
+reported success: ARM accepted the configuration, so provisioningState is
+Provisioned, while the runtime failed separately afterwards. A green apply is
+not evidence that the new image is running, which is why the deploy workflow
+checks the revision's running state before it finishes.
+
+The 5xx alert did not fire, correctly. No user-visible error happened.

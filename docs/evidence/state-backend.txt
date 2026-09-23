@@ -1,0 +1,12 @@
+# az storage blob list --container-name tfstate --account-name moyoazlabtfstate --auth-mode login
+Name                                       Size    Modified
+-----------------------------------------  ------  -------------------------
+azure-terraform-lab/dev/terraform.tfstate  55499   2026-09-23T11:10:09+00:00
+
+# az storage account show --name moyoazlabtfstate
+{
+  "publicBlob": false,
+  "sharedKey": false,
+  "tls": "TLS1_2",
+  "versioning": "see blob-service-properties"
+}

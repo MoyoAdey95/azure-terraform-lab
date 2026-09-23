@@ -1,0 +1,33 @@
+# az monitor action-group show
+{
+  "enabled": true,
+  "name": "ag-azure-lab",
+  "receivers": [
+    {
+      "name": "owner",
+      "status": "Enabled"
+    }
+  ]
+}
+
+# az monitor metrics alert show
+{
+  "criteria": {
+    "dims": [
+      {
+        "name": "statusCodeCategory",
+        "operator": "Include",
+        "values": [
+          "5xx"
+        ]
+      }
+    ],
+    "metric": "Requests",
+    "op": "GreaterThan",
+    "threshold": 0.0
+  },
+  "enabled": true,
+  "frequency": "PT1M",
+  "severity": 2,
+  "window": "PT5M"
+}

@@ -1,0 +1,13 @@
+# curl $URL/
+{"service":"tf-lab-api","message":"hello from key vault"}
+
+# curl $URL/health
+{"status":"ok"}
+
+# plain http, expecting a redirect
+301 https://ca-azure-lab-api.happypebble-f1e09d63.uksouth.azurecontainerapps.io/
+
+# az containerapp revision list
+Name                       Active    Running    Replicas    Image
+-------------------------  --------  ---------  ----------  ------------------------------------------------------------------------------
+ca-azure-lab-api--0000005  True      Running    1           moyoazlabacr.azurecr.io/azure-lab-api:a910c19cf550b00dd33dec242bf35a6a8307c75a
