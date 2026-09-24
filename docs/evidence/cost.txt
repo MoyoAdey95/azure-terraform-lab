@@ -1,0 +1,61 @@
+Cost of the lab, from the subscription's daily cost export rather than from
+the price list. All figures in USD. The export writes a month-to-date file
+each evening, and these come from the file written on 23 September 2026.
+
+The stack was created on 22 September and destroyed on 24 September.
+
+# by date, whole subscription
+  09/15/2026  0.0000
+  09/16/2026  0.0000
+  09/17/2026  0.0000
+  09/18/2026  0.0000
+  09/19/2026  0.0000
+  09/20/2026  0.0000
+  09/21/2026  0.0000
+  09/22/2026  0.1935      build day, part day of running
+  09/23/2026  0.1724      first full day, app idle apart from CI runs
+
+# by resource group, 15 to 23 September
+  rg-azure-lab             0.2138
+  rg-azure-lab-infra       0.1520
+  rg-azure-lab-tfstate     0.0001
+  rg-cost-exports          0.0000
+
+# charged meters, 23 September, a full day
+  Container Registry   Basic Registry Unit              0.0972
+  Virtual Network      Standard IPv4 Static Public IP   0.0750
+  Key Vault            Operations                       0.0002
+  Storage              All Other Operations             0.0000
+
+# meters that recorded usage and charged nothing
+  Load Balancer        Standard Included LB Rules and Outbound Rules - Free
+  Load Balancer        Standard Data Processed - Free
+  Storage              Hot LRS Write Operations - Free
+  Storage              Read Operations - Free
+  Bandwidth            Standard Data Transfer Out - Free
+  Log Analytics        Analytics Logs Data Ingestion                        0.0000
+
+Total for 15 to 23 September: 0.3660
+
+Notes.
+
+The load balancer that the Container Apps environment creates was billed at
+zero on this subscription, against meters whose names end in Free. The retail
+price list quotes $0.025 an hour for a standard load balancer. Whether that is
+a free allowance, trial behaviour or how Azure treats a load balancer it
+manages on your behalf, the usage data does not say.
+
+The charged meters also came in below the retail price. A full day of the
+registry cost $0.0972 where the Basic tier list price implies about $0.167,
+and the public IP cost $0.0750 where $0.005 an hour implies $0.12. Both are
+around 60 per cent of list, which suggests a discount on this subscription.
+
+The 22 September figure was restated. The export written on the morning of
+23 September gave that day as $0.0791. The export written that evening gave
+the same day as $0.1935. Usage data settles over a day or two, so a figure
+read the morning after is not final.
+
+The final part day, 24 September, is not included here. The stack was
+destroyed at 11:47 UTC that day and the export covering it had not been
+written when this file was captured. Adding a part day at the 23 September
+rate would put the whole build at roughly $0.45.
